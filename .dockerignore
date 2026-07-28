@@ -1,0 +1,10 @@
+*
+
+!Dockerfile
+!deno.json
+!deno.lock
+!drizzle.config.ts
+!drizzle/
+!drizzle/**
+!src/
+!src/**

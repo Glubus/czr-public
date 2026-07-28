@@ -1,0 +1,454 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1784115945773,
+      "tag": "0000_special_stryfe",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784115945774,
+      "tag": "0001_best_records",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784115945775,
+      "tag": "0002_simplify_best_records",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1784115945776,
+      "tag": "0003_add_best_record_points",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1784115945777,
+      "tag": "0004_add_submission_duration",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1784115945778,
+      "tag": "0005_add_submission_context",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1784115945779,
+      "tag": "0006_add_performance_points",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1784115945780,
+      "tag": "0007_add_competitor_key",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1784115945781,
+      "tag": "0008_version_submission_proofs",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1784115945782,
+      "tag": "0009_submission_score_bigint",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1784115945783,
+      "tag": "0010_submission_participant_personal_best",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1784115945784,
+      "tag": "0011_submission_player_count",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1784115945785,
+      "tag": "0012_user_external_id",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1784202345786,
+      "tag": "0013_submission_external_id",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1784288745787,
+      "tag": "0014_profile_claims",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1784375145788,
+      "tag": "0015_user_deletion",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1784461545789,
+      "tag": "0016_first_registered_admin",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1784547945790,
+      "tag": "0017_submission_daily_quota_index",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1784634345791,
+      "tag": "0018_submission_active_limit_index",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1784720745792,
+      "tag": "0019_submission_groups",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1784807145793,
+      "tag": "0020_clans",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1784893545794,
+      "tag": "0021_participation_confirmations",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1784979945795,
+      "tag": "0022_social_outbox",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1785066345796,
+      "tag": "0023_personal_runs",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1785152745797,
+      "tag": "0024_client_ingestion",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1785239145798,
+      "tag": "0025_durable_client_runs",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1785325545799,
+      "tag": "0026_large_dataset_queries",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1785411945800,
+      "tag": "0027_filesystem_client_blobs",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1785498345801,
+      "tag": "0028_engagement_moderation",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1785584745802,
+      "tag": "0029_smooth_score_points",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1785671145803,
+      "tag": "0030_mild_rank_factor",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1785757545804,
+      "tag": "0031_stronger_point_falloff",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1785843945805,
+      "tag": "0032_performance_history",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1785930345806,
+      "tag": "0033_board_goals",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1786016745807,
+      "tag": "0034_media_weekly_achievements",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1786103145808,
+      "tag": "0035_split_legacy_custom_maps",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1786189545809,
+      "tag": "0036_game_catalog_classification",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1786275945810,
+      "tag": "0037_repair_future_import_dates",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1786362345811,
+      "tag": "0038_simplify_game_studios",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1786448745812,
+      "tag": "0039_profile_colors",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1786535145813,
+      "tag": "0040_submission_comments",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1786621545814,
+      "tag": "0041_comment_threads_votes",
+      "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1786707945815,
+      "tag": "0042_cleanup_imported_rulesets",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1786794345816,
+      "tag": "0043_profile_pinned_records",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1786880745817,
+      "tag": "0044_game_covers_badges_country",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1786967145818,
+      "tag": "0045_remove_game_covers",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1787053545819,
+      "tag": "0046_achievement_progression",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1787139945820,
+      "tag": "0047_lights_out_speed_demon",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1787226345821,
+      "tag": "0048_teamwork_map_achievements",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1787312745822,
+      "tag": "0049_team_global_wr_formats_speedrun_tiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1787399145823,
+      "tag": "0050_fix_team_rank_unlocks_and_mastery_series",
+      "breakpoints": true
+    },
+    {
+      "idx": 51,
+      "version": "7",
+      "when": 1787485545824,
+      "tag": "0051_map_completionist_top15",
+      "breakpoints": true
+    },
+    {
+      "idx": 52,
+      "version": "7",
+      "when": 1787571945825,
+      "tag": "0052_single_record_pp_tiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 53,
+      "version": "7",
+      "when": 1787658345826,
+      "tag": "0053_total_performance_point_tiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 54,
+      "version": "7",
+      "when": 1787744745827,
+      "tag": "0054_team_rank_entry_tiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 55,
+      "version": "7",
+      "when": 1787831145828,
+      "tag": "0055_community_gum_and_speedrun_metrics",
+      "breakpoints": true
+    },
+    {
+      "idx": 56,
+      "version": "7",
+      "when": 1787917545829,
+      "tag": "0056_achievement_metric_snapshots",
+      "breakpoints": true
+    },
+    {
+      "idx": 57,
+      "version": "7",
+      "when": 1788003945830,
+      "tag": "0057_scoped_performance_aggregates",
+      "breakpoints": true
+    },
+    {
+      "idx": 58,
+      "version": "7",
+      "when": 1788090345831,
+      "tag": "0058_competitive_and_historical_achievements",
+      "breakpoints": true
+    },
+    {
+      "idx": 59,
+      "version": "7",
+      "when": 1788176745832,
+      "tag": "0059_rebalance_mastery_achievement_points",
+      "breakpoints": true
+    },
+    {
+      "idx": 60,
+      "version": "7",
+      "when": 1788263145833,
+      "tag": "0060_variety_achievements",
+      "breakpoints": true
+    },
+    {
+      "idx": 61,
+      "version": "7",
+      "when": 1788349545834,
+      "tag": "0061_remove_duplicate_achievement_series",
+      "breakpoints": true
+    },
+    {
+      "idx": 62,
+      "version": "7",
+      "when": 1788435945835,
+      "tag": "0062_specialized_category_achievements",
+      "breakpoints": true
+    },
+    {
+      "idx": 63,
+      "version": "7",
+      "when": 1788522345836,
+      "tag": "0063_bo3_reset_map_progression",
+      "breakpoints": true
+    }
+  ]
+}

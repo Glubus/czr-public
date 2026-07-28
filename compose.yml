@@ -1,0 +1,220 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://zwr:zwr@postgres:5432/zwr
+      PORT: 3000
+      APP_ENV: production
+      BETTER_AUTH_URL: ${PUBLIC_BASE_URL:-http://localhost}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-}
+      DOCS_TOKEN: ${DOCS_TOKEN:-}
+      REDIS_URL: redis://redis:6379
+      TRUST_PROXY: "true"
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8888}
+      EMAIL_MODE: ${EMAIL_MODE:-log}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
+      CLIENT_BLOB_ROOT: /var/lib/zwr/client-blobs
+    volumes:
+      - client_blobs:/var/lib/zwr/client-blobs
+    restart: unless-stopped
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: ${API_CPU_LIMIT:-1.0}
+          memory: ${API_MEMORY_LIMIT:-1G}
+    expose:
+      - "3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [
+        "CMD",
+        "deno",
+        "eval",
+        "const r=await fetch('http://localhost:3000/health');if(!r.ok)Deno.exit(1)",
+      ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  worker:
+    build: .
+    command: ["task", "worker"]
+    environment:
+      DATABASE_URL: postgresql://zwr:zwr@postgres:5432/zwr
+      WORKER_POLL_INTERVAL_MS: ${WORKER_POLL_INTERVAL_MS:-1000}
+      CLIENT_BLOB_ROOT: /var/lib/zwr/client-blobs
+    volumes:
+      - client_blobs:/var/lib/zwr/client-blobs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: ${WORKER_CPU_LIMIT:-0.5}
+          memory: ${WORKER_MEMORY_LIMIT:-512M}
+
+  web:
+    build: ./web
+    environment:
+      API_BASE_URL: http://api:3000/v1
+      ORIGIN: ${PUBLIC_BASE_URL:-http://localhost:8888}
+      BODY_SIZE_LIMIT: 16M
+      LEGAL_OPERATOR_NAME: ${LEGAL_OPERATOR_NAME:-}
+      LEGAL_CONTACT_EMAIL: ${LEGAL_CONTACT_EMAIL:-}
+      LEGAL_HOST_NAME: ${LEGAL_HOST_NAME:-OVHcloud}
+    expose:
+      - "3000"
+    restart: unless-stopped
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: ${WEB_CPU_LIMIT:-0.5}
+          memory: ${WEB_MEMORY_LIMIT:-512M}
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  caddy:
+    image: caddy:2.10-alpine
+    environment:
+      CADDY_ADDRESS: ${CADDY_ADDRESS:-:80}
+    ports:
+      - "${CADDY_HTTP_PORT:-8888}:80"
+      - "${CADDY_HTTPS_PORT:-8443}:443"
+      - "${CADDY_HTTPS_PORT:-8443}:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: ${CADDY_CPU_LIMIT:-0.5}
+          memory: ${CADDY_MEMORY_LIMIT:-256M}
+    depends_on:
+      api:
+        condition: service_healthy
+      web:
+        condition: service_healthy
+
+  migrate:
+    build: .
+    command: ["task", "migrate"]
+    environment:
+      DATABASE_URL: postgresql://zwr:zwr@postgres:5432/zwr
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  redis:
+    image: redis:7-alpine
+    command: [
+      "redis-server",
+      "--maxmemory",
+      "${REDIS_MAXMEMORY:-256mb}",
+      "--maxmemory-policy",
+      "volatile-lru",
+    ]
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: ${REDIS_CPU_LIMIT:-0.5}
+          memory: ${REDIS_MEMORY_LIMIT:-384M}
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: zwr
+      POSTGRES_USER: zwr
+      POSTGRES_PASSWORD: zwr
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: ${POSTGRES_CPU_LIMIT:-2.0}
+          memory: ${POSTGRES_MEMORY_LIMIT:-2G}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zwr -d zwr"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  postgres-test:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: zwr_test
+      POSTGRES_USER: zwr
+      POSTGRES_PASSWORD: zwr
+    ports:
+      - "5433:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zwr -d zwr_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  media-backup:
+    image: alpine:3.22
+    profiles: ["operations"]
+    volumes:
+      - client_blobs:/source:ro
+      - ${BACKUP_DIR:-./backups}:/backups
+    command:
+      - sh
+      - -c
+      - tar -C /source -czf "/backups/client-blobs-$$(date -u +%Y%m%dT%H%M%SZ).tar.gz" .
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: ${BACKUP_CPU_LIMIT:-0.5}
+          memory: ${BACKUP_MEMORY_LIMIT:-256M}
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:
+  client_blobs:
